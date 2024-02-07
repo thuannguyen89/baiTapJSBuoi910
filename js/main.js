@@ -1,6 +1,9 @@
 // Tạo đối tượng dsnv từ lớp đối tượng DSNV
 const dsnv = new DSNV();
 
+// Tạo đối tượng validation
+const validation = new Validation();
+
 // Gọi lấy DSNV từ localStorage
 getLocalStorage();
 
@@ -49,6 +52,57 @@ function layThongTinNV() {
     const _luongCoBan = getEle("luongCB").value;
     const _chucVu = getEle("chucvu").value;
     const _gioLam = getEle("gioLam").value;
+
+    /**
+     * Validation
+     *  + Tài khoản tối đa 4 - 6 ký số, không để trống
+     *  + Tên nhân viên phải là chữ, không để trống
+     *  + Email phải đúng định dạng, không để trống
+     *  + mật Khẩu từ 6-10 ký tự (chứa ít nhất 1 ký tự số, 1 ký tự in hoa, 1 ký tự đặc biệt), không để trống
+     *  + Ngày làm không để trống, định dạng mm/dd/yyyy
+     *  + Lương cơ bản 1 000 000 - 20 000 000, không để trống
+     *  + Chức vụ phải chọn chức vụ hợp lệ (Giám đốc, Trưởng Phòng, Nhân Viên)
+     *  + Số giờ làm trong tháng 80 - 200 giờ, không để trống
+     */
+    let isValid = true;
+
+    // Kiểm tra rỗng
+    isValid &= validation.kiemTraRong(_taiKhoan, 'tbTKNV', 'Tài khoản không được trống.');
+    isValid &= validation.kiemTraRong(_hoTen, 'tbTen', 'Họ Tên không được trống.');
+    isValid &= validation.kiemTraRong(_email, 'tbEmail', 'Email không được trống.');
+    isValid &= validation.kiemTraRong(_matKhau, 'tbMatKhau', 'Mật khẩu không được trống.');
+    isValid &= validation.kiemTraRong(_ngayLam, 'tbNgay', 'Ngày làm không được trống.');
+    isValid &= validation.kiemTraRong(_luongCoBan, 'tbLuongCB', 'Lương cơ bản không được trống.');
+    isValid &= validation.kiemTraRong(_chucVu, 'tbChucVu', 'Chức vụ không được trống.');
+    isValid &= validation.kiemTraRong(_gioLam, 'tbGiolam', 'Tài khoản không được trống.');
+
+    // Tài khoản tối đa 4-6 kí số
+    isValid &= validation.kiemTraTaiKhoan(_taiKhoan, 'tbTKNV');
+
+    // Kiểm tra họ tên
+    isValid &= validation.kiemTraHoTen(_hoTen, 'tbTen');
+
+    // Kiểm tra format email
+    isValid &= validation.kiemTraFormatEmail(_email, 'tbEmail');
+
+    // Mật khẩu tối đa 6-10 kí tự 
+    isValid &= validation.kiemTraMatKhau(_matKhau, 'tbMatKhau');
+
+    // Kiểm tra format ngày làm
+    isValid &= validation.kiemtraFormatNgayLam(_ngayLam, 'tbNgay');
+
+    // Kiểm tra lương cơ bản
+    isValid &= validation.kiemTraLuongCB(_luongCoBan, 'tbLuongCB');
+
+    // Kiểm tra chức vụ
+    isValid &= validation.kiemTraChucVu(_chucVu, 'tbChucVu');
+
+    // Kiểm tra số giờ làm
+    isValid &= validation.kiemTraGioLam(_gioLam, 'tbGiolam');
+
+    if (isValid == false) {
+        return;
+    }
 
     // Tạo đối tượng NhanVien
     const nv = new NhanVien(
@@ -104,6 +158,11 @@ function themNV() {
     // Lấy thông tin NV từ người dùng nhập vào
     const nv = layThongTinNV();
 
+    // Nếu Nhân viên không tạo thành công thì return
+    if (!nv) {
+        return;
+    }
+
     // Thêm nhân viên vào mảng
     dsnv.themNV(nv);
 
@@ -156,7 +215,7 @@ function suaNV(taiKhoan) {
 /**
  * Cập nhật nhân viên sau khi đã thay đổi
  */
- function capNhapSV() {
+function capNhapSV() {
     // Lấy thông tin NV từ người dùng nhập vào
     const nv = layThongTinNV();
 
