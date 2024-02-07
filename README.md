@@ -6,3 +6,4 @@
 # 6. Su dung local Storage de luu gia tri mang DSSV
 # 7. Them validation cho tat ca cac field trong form can kiem tra
 # 8. Tim nhan vien theo loai va hien thi
+# 9. Link demo online : https://raw.githack.com/thuannguyen89/baiTapJSBuoi910/main/index.html
