@@ -228,3 +228,32 @@ function capNhapSV() {
     // Hiển thị DSNV
     hienThiDSNV(dsnv.items);
 }
+
+/**
+ * Tìm nhân viên theo loại
+ */
+getEle("btnTimNV").onclick = function () {
+    let searchName = getEle("searchName").value;
+
+    if (searchName == 'xuat sac' || searchName == 'xuất sắc' || searchName == 'Xuat Sac' || searchName == 'Xuất Sắc') {
+        searchName = 'Xuất Sắc';
+    } else if (searchName == 'gioi' || searchName == 'Gioi' || searchName == 'giỏi' || searchName == 'Giỏi') {
+        searchName = 'Giỏi';
+    } else if (searchName == 'kha' || searchName == 'khá' || searchName == 'Kha' || searchName == 'Khá') {
+        searchName = 'Khá';
+    } else if (searchName == 'trung binh' || searchName == 'trung bình' || searchName == 'Trung Binh' || searchName == 'Trung Bình') {
+        searchName = 'Trung Bình';
+    }
+
+    // Tìm kiếm các nhan viên có loại phù hợp
+    let result = dsnv.timNVTheoLoai(searchName);
+    hienThiDSNV(result);
+    if (result.length > 0) {
+        // Hiện thị thông báo ra kết quả tìm kiếm
+        getEle("tbTimNV").innerHTML = `Tìm thấy <b>${result.length}</b> nhân viên xếp loại '${searchName}'`;
+
+    } else {
+        // Hiện thị thông báo ra kết quả tìm kiếm
+        getEle("tbTimNV").innerHTML = `Không tìm thấy bất kỳ nhân viên nào xếp loại '${searchName}'`;
+    }
+}

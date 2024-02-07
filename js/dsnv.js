@@ -20,16 +20,15 @@ function DSNV() {
     };
 
     this.timNVTheoLoai = function (loaiNV) {
-        let index = -1;
+        let dsnvTheoLoai = [];
         for (let i = 0; i < this.items.length; i++) {
             const nv = this.items[i];
             if (nv.loaiNV == loaiNV) {
-                index = i;
-                break;
+                dsnvTheoLoai.push(nv);
             }
         }
 
-        return index;
+        return dsnvTheoLoai;
     };
 
     this.layThongTinNV = function (taiKhoan) {
