@@ -42,7 +42,7 @@ function getEle(id) {
 }
 
 // Lấy thông tin NV nhập từ form
-function layThongTinNV() {
+function layThongTinNV(isEdit = false) {
     // Lấy thông tin từ form
     const _taiKhoan = getEle("tknv").value;
     const _hoTen = getEle("name").value;
@@ -80,7 +80,9 @@ function layThongTinNV() {
     isValid &= validation.kiemTraTaiKhoan(_taiKhoan, 'tbTKNV');
 
     // Kiểm tra Tài khoản đã tồn tại
-    isValid &= validation.kiemTraTaiKhoanTonTai(_taiKhoan, 'tbTKNV', dsnv.items);
+    if (!isEdit) {
+        isValid &= validation.kiemTraTaiKhoanTonTai(_taiKhoan, 'tbTKNV', dsnv.items);
+    }
 
     // Kiểm tra họ tên
     isValid &= validation.kiemTraHoTen(_hoTen, 'tbTen');
@@ -220,7 +222,7 @@ function suaNV(taiKhoan) {
  */
 function capNhapSV() {
     // Lấy thông tin NV từ người dùng nhập vào
-    const nv = layThongTinNV();
+    const nv = layThongTinNV(true);
 
     // Thêm nhân viên vào mảng
     dsnv.capNhapSV(nv);
@@ -259,4 +261,25 @@ getEle("btnTimNV").onclick = function () {
         // Hiện thị thông báo ra kết quả tìm kiếm
         getEle("tbTimNV").innerHTML = `Không tìm thấy bất kỳ nhân viên nào xếp loại '${searchName}'`;
     }
+}
+
+/**
+ * Thiết lập lại các giá trị trên form
+ */
+function resetForm() {
+    // Ẩn nút cập nhật
+    getEle("btnCapNhat").style.display = "none";
+
+    // Hiển thị nút thêm
+    getEle("btnThemNV").style.display = "inline-block";
+
+    getEle("tknv").value = '';
+    getEle("tknv").disabled = false;
+    getEle("name").value = '';
+    getEle("email").value = '';
+    getEle("password").value = '';
+    getEle("datepicker").value = '';
+    getEle("luongCB").value = '';
+    getEle("chucvu").value = '';
+    getEle("gioLam").value = '';
 }

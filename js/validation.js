@@ -36,16 +36,23 @@ function Validation() {
     }
 
     this.kiemTraTaiKhoanTonTai = function(taiKhoan, spanId, items) {
+        let isValid = true;
+        let message = '';
+        
         for (let i = 0; i < items.length; i++) {
             let nv = items[i];
             if (taiKhoan === nv.taiKhoan) {
-                getEle(spanId).innerHTML = 'Tài khoản này đã tồn tại.';
-                return false;
+                message = `Tài khoản này đã tồn tại.`;
+                isValid = false;
+                break;
             }
         }
 
-        getEle(spanId).innerHTML = '';
-        return true;
+        if (!isValid) {
+            getEle(spanId).innerHTML = message;
+        }
+
+        return isValid;
     }
 
     this.kiemTraFormatEmail = function (email, spanId) {
