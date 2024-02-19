@@ -79,6 +79,9 @@ function layThongTinNV() {
     // Tài khoản tối đa 4-6 kí số
     isValid &= validation.kiemTraTaiKhoan(_taiKhoan, 'tbTKNV');
 
+    // Kiểm tra Tài khoản đã tồn tại
+    isValid &= validation.kiemTraTaiKhoanTonTai(_taiKhoan, 'tbTKNV', dsnv.items);
+
     // Kiểm tra họ tên
     isValid &= validation.kiemTraHoTen(_hoTen, 'tbTen');
 

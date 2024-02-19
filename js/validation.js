@@ -35,6 +35,19 @@ function Validation() {
         return isValid;
     }
 
+    this.kiemTraTaiKhoanTonTai = function(taiKhoan, spanId, items) {
+        for (let i = 0; i < items.length; i++) {
+            let nv = items[i];
+            if (taiKhoan === nv.taiKhoan) {
+                getEle(spanId).innerHTML = 'Tài khoản này đã tồn tại.';
+                return false;
+            }
+        }
+
+        getEle(spanId).innerHTML = '';
+        return true;
+    }
+
     this.kiemTraFormatEmail = function (email, spanId) {
         let regrexEmail = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
 
